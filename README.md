@@ -1,13 +1,10 @@
 # elt_project_spark
 
 
-# ETL Application
-
 ## Descripción General
 
 Esta aplicación ETL está diseñada para procesar y transformar datos de manera eficiente, modular y escalable. Su arquitectura permite manejar flujos de datos específicos de diferentes entidades (como `film`, `customer`, `inventory`, etc.) y realizar tareas de extracción, transformación y carga con PySpark.
 
----
 
 ## Estructura del Proyecto
 
@@ -34,7 +31,7 @@ etl-app/
 ├── main.py               # Punto de entrada principal de la aplicación
 └── requirements.txt      # Dependencias del proyecto
 
-
+```
 
 ## 1. Modularidad
 
@@ -56,7 +53,7 @@ La estructura de directorios permite separar las responsabilidades y mantener un
 
 ## 3. Reusabilidad
 
-- **Clase base ETL (`AbstractETL.py`)**: Contiene métodos comunes (`extract`, `transform`, `load`) y facilita extender la lógica para flujos ETL específicos. Esto minimiza redundancias.
+- **Clase base ETL (`AbstractETL.py`)**: Contiene métodos comunes  lo que estandariza la forma en que se implementan los procesos ETL (`extract`, `transform`, `load`) y facilita extender la lógica para flujos ETL específicos. Esto minimiza redundancias.
 - **Configuraciones en `config/`**: Los valores dinámicos, como las rutas de datos, pueden ser reutilizados por múltiples componentes.
 
 ---
