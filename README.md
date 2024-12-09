@@ -16,8 +16,7 @@ etl-app/
 │   ├── logger.py         # Registro de logs
 │   └── tracing.py        # Rastreo de flujo
 ├── etl/
-│   ├── __init__.py       # Inicializador del módulo ETL
-│   ├── base_etl.py       # Clase base con lógica común para ETL
+│   ├── AbstractETL.py       # Clase base con lógica común para ETL
 │   ├── film_etl.py       # Flujo ETL específico para 'film'
 │   ├── customer_etl.py   # Flujo ETL específico para 'customer'
 │   ├── inventory_etl.py  # Flujo ETL específico para 'inventory'
