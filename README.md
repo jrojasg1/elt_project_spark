@@ -14,7 +14,6 @@ etl-app/
 │   └── settings.py       # Configuraciones generales de la aplicación
 ├── observability/
 │   ├── logger.py         # Registro de logs
-│   ├── metrics.py        # Gestión de métricas
 │   └── tracing.py        # Rastreo de flujo
 ├── etl/
 │   ├── __init__.py       # Inicializador del módulo ETL
