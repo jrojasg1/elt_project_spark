@@ -53,32 +53,29 @@ class CustomerETL(AbstractETL):
             
         for column, rules in self.column_rules.items():
             if column in df.columns and column != "columns_to_drop":
-                self.logger.info(f"Limpieza de la columna: {column}")
+                self.logger.info(f"Cleaning column: {column}")
                 
                 if "regex" in rules:
-                    self.logger.info(f"Aplicando regex {rules['regex']} a la columna {column}")
+                    self.logger.info(f"Add regex {rules['regex']} to column {column}")
                     df = df.withColumn(column, F.regexp_replace(F.col(column), rules["regex"], ""))
                 
                 if "transformations" in rules:
                     for transformation in rules["transformations"]:
                         func = transformation["function"]
-                        self.logger.info(f"Aplicando transformación {func} a la columna {column}")
+                        self.logger.info(f"Add transformation {func} to column {column}")
                         df = df.withColumn(column, func(F.col(column)))
                 
                 if "type" in rules:
-                    self.logger.info(f"Casteando la columna {column} al tipo {rules['type']}")
+                    self.logger.info(f"Casting column {column} to type {rules['type']}")
                     df = df.withColumn(column, F.col(column).cast(rules["type"]))
         
         columns_to_drop = self.column_rules.get("columns_to_drop", [])
-        self.logger.info(f"Eliminando columnas: {columns_to_drop}")
+        self.logger.info(f"Drop columns: {columns_to_drop}")
         df = df.drop(*columns_to_drop)
         
         if "customer_id" in df.columns:
-            self.logger.info("Eliminando duplicados y ordenando por 'customer_id'")
+            self.logger.info("Delete duplicate data and order by 'customer_id'")
             df = df.dropDuplicates(["customer_id"]).orderBy("customer_id")
-        
-        self.logger.info("Estado final del DataFrame después de la limpieza:")
-        df.show()
         
         return df
 

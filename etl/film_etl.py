@@ -62,35 +62,31 @@ class FilmETL(AbstractETL):
 
         for column, rules in self.column_rules.items():
             if column in df.columns:
-                self.logger.info(f"Limpieza de la columna: {column}")
+                self.logger.info(f"Cleaning column: {column}")
                 
                 if "regex" in rules and rules["regex"]:
-                    self.logger.info(f"Aplicando regex {rules['regex']} a la columna {column}")
+                    self.logger.info(f"Add regex {rules['regex']} to column {column}")
                     df = df.withColumn(column, F.regexp_replace(F.col(column), rules["regex"], ""))
                 
                 if "type" in rules:
-                    self.logger.info(f"Casteando la columna {column} al tipo {rules['type']}")
+                    self.logger.info(f"Casting column {column} to type {rules['type']}")
                     df = df.withColumn(column, F.col(column).cast(rules["type"]))
                 
                 if "nullable" in rules and not rules["nullable"]:
                     default_value = rules.get("default", None)
                     if default_value is not None:
-                        self.logger.info(f"Reemplazando valores nulos en la columna {column} por {default_value}")
+                        self.logger.info(f"Replace null values  in the  column {column} to {default_value}")
                         df = df.withColumn(column, F.when(F.col(column).isNull(), default_value).otherwise(F.col(column)))
                 
                 if "format_number" in rules:
-                    self.logger.info(f"Formateando los números en la columna {column} a {rules['format_number']} decimales")
+                    self.logger.info(f"Formatting numbers in the column {column} to {rules['format_number']} decimal")
                     df = df.withColumn(column, F.format_number(F.col(column), rules["format_number"]))
             else:
-                self.logger.warning(f"La columna {column} no existe en el DataFrame. Se omite la limpieza.")
+                self.logger.warning(f"The column {column} does not exist in the DataFrame. Cleaning is omitted.")
         
         if "film_id" in df.columns:
-            self.logger.info("Eliminando duplicados y ordenando por 'film_id'")
+            self.logger.info("Deleting duplicate data and order by 'film_id'")
             df = df.dropDuplicates(["film_id"]).orderBy("film_id")
-        
-        # Mostrar DataFrame después de limpieza (opcional, para depuración)
-        self.logger.info("Estado final del DataFrame después de la limpieza:")
-        df.show()
         
         return df
 
